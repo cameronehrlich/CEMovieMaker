@@ -14,6 +14,7 @@
 		321B3F4319CA08C50077829E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 321B3F4219CA08C50077829E /* Images.xcassets */; };
 		321B3F4619CA08C50077829E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 321B3F4419CA08C50077829E /* LaunchScreen.xib */; };
 		321B3F5219CA08C50077829E /* CEMovieMakerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 321B3F5119CA08C50077829E /* CEMovieMakerTests.m */; };
+		321B3F5D19CA08DE0077829E /* CEMovieMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 321B3F5C19CA08DE0077829E /* CEMovieMaker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		321B3F4B19CA08C50077829E /* CEMovieMakerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CEMovieMakerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		321B3F5019CA08C50077829E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		321B3F5119CA08C50077829E /* CEMovieMakerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CEMovieMakerTests.m; sourceTree = "<group>"; };
+		321B3F5B19CA08DE0077829E /* CEMovieMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEMovieMaker.h; sourceTree = "<group>"; };
+		321B3F5C19CA08DE0077829E /* CEMovieMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEMovieMaker.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +88,8 @@
 				321B3F3A19CA08C50077829E /* AppDelegate.m */,
 				321B3F3C19CA08C50077829E /* ViewController.h */,
 				321B3F3D19CA08C50077829E /* ViewController.m */,
+				321B3F5B19CA08DE0077829E /* CEMovieMaker.h */,
+				321B3F5C19CA08DE0077829E /* CEMovieMaker.m */,
 				321B3F3F19CA08C50077829E /* Main.storyboard */,
 				321B3F4219CA08C50077829E /* Images.xcassets */,
 				321B3F4419CA08C50077829E /* LaunchScreen.xib */,
@@ -220,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				321B3F3E19CA08C50077829E /* ViewController.m in Sources */,
+				321B3F5D19CA08DE0077829E /* CEMovieMaker.m in Sources */,
 				321B3F3B19CA08C50077829E /* AppDelegate.m in Sources */,
 				321B3F3819CA08C50077829E /* main.m in Sources */,
 			);
