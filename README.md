@@ -1,4 +1,4 @@
 CEMovieMaker
 ============
 
-CEMovieMaker is a Quick and Dirty way to create a movie from and array of UIImages
+CEMovieMaker is a quick and dirty way to create a movie from and array of UIImages.
