@@ -10,6 +10,6 @@ Pod::Spec.new do |spec|
   spec.platform         = :ios, "7.0"
   spec.source           = { :git => "https://github.com/cameronehrlich/CEMovieMaker.git" }
   spec.source_files     = "CEMovieMaker/CEMovieMaker/CEMovieMaker.{h,m}"
-  spec.frameworks       = "QuartzCore", "UIKit", "ImageIO", "MobileCoreServices", "CoreGraphics"
+  spec.frameworks       = "AVFoundation", "UIKit", "Foundation"
   spec.requires_arc     = true
 end
