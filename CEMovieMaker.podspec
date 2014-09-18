@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
   spec.social_media_url = "https://twitter.com/cameronehrlich"
   spec.platform         = :ios, "7.0"
   spec.source           = { :git => "https://github.com/cameronehrlich/CEMovieMaker.git" }
-  spec.source_files     = "CEMovieMaker/CEMovieMaker/CEMovieMaker.{h,m}"
+  spec.source_files     = "CEMovieMaker/CEMovieMaker.{h,m}"
   spec.frameworks       = "AVFoundation", "UIKit", "Foundation"
   spec.requires_arc     = true
 end
