@@ -27,6 +27,6 @@ typedef void(^CEMovieMakerCompletion)(BOOL success, NSURL *fileURL);
 - (instancetype)initWithSettings:(NSDictionary *)videoSettings;
 - (void)createMovieFromImages:(NSArray *)images withCompletion:(CEMovieMakerCompletion)completion;
 
-+ (NSDictionary *)videoSettingsWithCodec:(NSString *)codec withHeight:(int)height andWidth:(int)width;
++ (NSDictionary *)videoSettingsWithCodec:(NSString *)codec withWidth:(CGFloat)width andHeight:(CGFloat)height;
 
 @end

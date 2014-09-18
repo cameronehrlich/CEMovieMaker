@@ -19,19 +19,18 @@
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths firstObject];
         NSString *tempPath = [documentsDirectory stringByAppendingFormat:@"/export.mov"];
-
+        
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:tempPath]) {
             [[NSFileManager defaultManager] removeItemAtPath:tempPath error:&error];
             if (error) {
                 NSLog(@"Error: %@", error.debugDescription);
             }
-            NSLog(@"Removed file at fileURL");
         }
         
         _fileURL = [NSURL fileURLWithPath:tempPath];
         _assetWriter = [[AVAssetWriter alloc] initWithURL:self.fileURL
-                                                     fileType:AVFileTypeQuickTimeMovie error:&error];
+                                                 fileType:AVFileTypeQuickTimeMovie error:&error];
         if (error) {
             NSLog(@"Error: %@", error.debugDescription);
         }
@@ -39,7 +38,7 @@
         
         _videoSettings = videoSettings;
         _writerInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo
-                                                               outputSettings:videoSettings];
+                                                          outputSettings:videoSettings];
         NSParameterAssert(self.writerInput);
         NSParameterAssert([self.assetWriter canAddInput:self.writerInput]);
         
@@ -49,7 +48,7 @@
                                           [NSNumber numberWithInt:kCVPixelFormatType_32ARGB], kCVPixelBufferPixelFormatTypeKey, nil];
         
         _bufferAdapter = [[AVAssetWriterInputPixelBufferAdaptor alloc] initWithAssetWriterInput:self.writerInput sourcePixelBufferAttributes:bufferAttributes];
-        _frameTime = CMTimeMake(1, 20);
+        _frameTime = CMTimeMake(1, 10);
     }
     return self;
 }
@@ -61,44 +60,36 @@
     [self.assetWriter startWriting];
     [self.assetWriter startSessionAtSourceTime:kCMTimeZero];
     
-    CVPixelBufferRef buffer = NULL;
-    buffer = [self newPixelBufferFromCGImage:[[images objectAtIndex:0] CGImage]];
-    CVPixelBufferPoolCreatePixelBuffer (NULL, self.bufferAdapter.pixelBufferPool, &buffer);
+    dispatch_queue_t mediaInputQueue = dispatch_queue_create("mediaInputQueue", NULL);
     
-    [self.bufferAdapter appendPixelBuffer:buffer withPresentationTime:kCMTimeZero];
-    
-    dispatch_queue_t mediaInputQueue =  dispatch_queue_create("mediaInputQueue", NULL);
-    
-    __block NSInteger i = 1;
+    __block NSInteger i = 0;
     
     NSInteger frameNumber = [images count];
-    __block BOOL success = YES;
-
+    __block BOOL success = YES; // TODO : Implement this
+    
     [self.writerInput requestMediaDataWhenReadyOnQueue:mediaInputQueue usingBlock:^{
         while (YES){
-            if (i == frameNumber) {
-                NSLog(@"Wrote final frame.");
+            if (i >= frameNumber) {
                 break;
             }
             if ([self.writerInput isReadyForMoreMediaData]) {
                 
                 CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[[images objectAtIndex:i] CGImage]];
-                NSLog(@"inside for loop %ld",(long)i);
-                
-                CMTime lastTime = CMTimeMake(i, self.frameTime.timescale);
-                
-                CMTime presentTime = CMTimeAdd(lastTime, self.frameTime);
                 
                 if (sampleBuffer) {
-                    [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:presentTime];
-                    i++;
+                    if (i == 0) {
+                        [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:kCMTimeZero];
+                    }else{
+                        CMTime lastTime = CMTimeMake(i, self.frameTime.timescale);
+                        CMTime presentTime = CMTimeAdd(lastTime, self.frameTime);
+                        [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:presentTime];
+                    }
                     CFRelease(sampleBuffer);
-                } else {
-                    break;
+                    i++;
                 }
             }
         }
-
+        
         [self.writerInput markAsFinished];
         [self.assetWriter finishWritingWithCompletionHandler:^{
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -119,8 +110,8 @@
     
     CVPixelBufferRef pxbuffer = NULL;
     
-    int frameWidth = [[self.videoSettings objectForKey:AVVideoWidthKey] intValue];
-    int frameHeight = [[self.videoSettings objectForKey:AVVideoHeightKey] intValue];
+    CGFloat frameWidth = [[self.videoSettings objectForKey:AVVideoWidthKey] floatValue];
+    CGFloat frameHeight = [[self.videoSettings objectForKey:AVVideoHeightKey] floatValue];
     
     CVReturn status = CVPixelBufferCreate(kCFAllocatorDefault,
                                           frameWidth,
@@ -159,11 +150,16 @@
     return pxbuffer;
 }
 
-+ (NSDictionary *)videoSettingsWithCodec:(NSString *)codec withHeight:(int)height andWidth:(int)width
++ (NSDictionary *)videoSettingsWithCodec:(NSString *)codec withWidth:(CGFloat)width andHeight:(CGFloat)height
 {
+    
+    if ((int)width % 16 != 0 ) {
+        NSLog(@"Warning: video settings width must be divisible by 16.");
+    }
+    
     NSDictionary *videoSettings = @{AVVideoCodecKey : AVVideoCodecH264,
-                                    AVVideoWidthKey : @(width),
-                                    AVVideoHeightKey : @(height)};
+                                    AVVideoWidthKey : [NSNumber numberWithInt:(int)width],
+                                    AVVideoHeightKey : [NSNumber numberWithInt:(int)height]};
     
     return videoSettings;
 }
