@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>DEFC5A1D-1960-43B0-8642-3A7D270BFF1F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>CEMovieMaker</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>85EAE9FAC5126954A238FDB9B0D1970ECD2DF1A4</key>
+		<string>github.com:cameronehrlich/CEMovieMaker.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>CEMovieMaker.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>85EAE9FAC5126954A238FDB9B0D1970ECD2DF1A4</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:cameronehrlich/CEMovieMaker.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>85EAE9FAC5126954A238FDB9B0D1970ECD2DF1A4</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>85EAE9FAC5126954A238FDB9B0D1970ECD2DF1A4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CEMovieMaker</string>
+		</dict>
+	</array>
+</dict>
+</plist>
