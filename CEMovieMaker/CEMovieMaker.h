@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Cameron Ehrlich. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @import AVFoundation;
 @import Foundation;
 @import UIKit;
