@@ -10,7 +10,7 @@
 @import Foundation;
 @import UIKit;
 
-typedef void(^CEMovieMakerCompletion)(BOOL success, NSURL *fileURL);
+typedef void(^CEMovieMakerCompletion)(NSURL *fileURL);
 
 @interface CEMovieMaker : NSObject
 

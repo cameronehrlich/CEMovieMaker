@@ -65,7 +65,6 @@
     __block NSInteger i = 0;
     
     NSInteger frameNumber = [images count];
-    __block BOOL success = YES; // TODO : Implement this
     
     [self.writerInput requestMediaDataWhenReadyOnQueue:mediaInputQueue usingBlock:^{
         while (YES){
@@ -93,7 +92,7 @@
         [self.writerInput markAsFinished];
         [self.assetWriter finishWritingWithCompletionHandler:^{
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.completionBlock(success, self.fileURL);
+                self.completionBlock(self.fileURL);
             });
         }];
         
@@ -112,6 +111,7 @@
     
     CGFloat frameWidth = [[self.videoSettings objectForKey:AVVideoWidthKey] floatValue];
     CGFloat frameHeight = [[self.videoSettings objectForKey:AVVideoHeightKey] floatValue];
+    
     
     CVReturn status = CVPixelBufferCreate(kCFAllocatorDefault,
                                           frameWidth,
@@ -134,7 +134,7 @@
                                                  8,
                                                  4 * frameWidth,
                                                  rgbColorSpace,
-                                                 kCGImageAlphaNoneSkipFirst);
+                                                 (CGBitmapInfo)kCGImageAlphaNoneSkipFirst);
     NSParameterAssert(context);
     CGContextConcatCTM(context, CGAffineTransformIdentity);
     CGContextDrawImage(context, CGRectMake(0,
