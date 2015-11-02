@@ -55,14 +55,14 @@ typedef UIImage*(^CEMovieMakerUIImageExtractor)(NSObject* inputObject);
     return self;
 }
 
-- (void) createMovieFromImageURLs:(NSArray<NSURL*>*)urls withCompletion:(CEMovieMakerCompletion)completion;
+- (void) createMovieFromImageURLs:(NSArray CE_GENERIC_URL*)urls withCompletion:(CEMovieMakerCompletion)completion;
 {
     [self createMovieFromSource:urls extractor:^UIImage *(NSObject *inputObject) {
         return [UIImage imageWithData: [NSData dataWithContentsOfURL:((NSURL*)inputObject)]];
     } withCompletion:completion];
 }
 
-- (void) createMovieFromImages:(NSArray *)images withCompletion:(CEMovieMakerCompletion)completion;
+- (void) createMovieFromImages:(NSArray CE_GENERIC_IMAGE *)images withCompletion:(CEMovieMakerCompletion)completion;
 {
     [self createMovieFromSource:images extractor:^UIImage *(NSObject *inputObject) {
         return (UIImage*)inputObject;
