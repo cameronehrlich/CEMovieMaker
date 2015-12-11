@@ -8,6 +8,8 @@
 
 #import "CEMovieMaker.h"
 
+typedef UIImage*(^CEMovieMakerUIImageExtractor)(NSObject* inputObject);
+
 @implementation CEMovieMaker
 
 - (instancetype)initWithSettings:(NSDictionary *)videoSettings;
@@ -53,7 +55,21 @@
     return self;
 }
 
-- (void)createMovieFromImages:(NSArray *)images withCompletion:(CEMovieMakerCompletion)completion;
+- (void) createMovieFromImageURLs:(NSArray CE_GENERIC_URL*)urls withCompletion:(CEMovieMakerCompletion)completion;
+{
+    [self createMovieFromSource:urls extractor:^UIImage *(NSObject *inputObject) {
+        return [UIImage imageWithData: [NSData dataWithContentsOfURL:((NSURL*)inputObject)]];
+    } withCompletion:completion];
+}
+
+- (void) createMovieFromImages:(NSArray CE_GENERIC_IMAGE *)images withCompletion:(CEMovieMakerCompletion)completion;
+{
+    [self createMovieFromSource:images extractor:^UIImage *(NSObject *inputObject) {
+        return (UIImage*)inputObject;
+    } withCompletion:completion];
+}
+
+- (void) createMovieFromSource:(NSArray *)images extractor:(CEMovieMakerUIImageExtractor)extractor withCompletion:(CEMovieMakerCompletion)completion;
 {
     self.completionBlock = completion;
     
@@ -72,8 +88,13 @@
                 break;
             }
             if ([self.writerInput isReadyForMoreMediaData]) {
-                
-                CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[[images objectAtIndex:i] CGImage]];
+                UIImage* img = extractor([images objectAtIndex:i]);
+                if (img == nil) {
+                    i++;
+                    NSLog(@"Warning: could not extract one of the frames");
+                    continue;
+                }
+                CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[img CGImage]];
                 
                 if (sampleBuffer) {
                     if (i == 0) {
@@ -99,6 +120,7 @@
         CVPixelBufferPoolRelease(self.bufferAdapter.pixelBufferPool);
     }];
 }
+
 
 - (CVPixelBufferRef)newPixelBufferFromCGImage:(CGImageRef)image
 {
