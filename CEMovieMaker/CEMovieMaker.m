@@ -88,14 +88,17 @@ typedef UIImage*(^CEMovieMakerUIImageExtractor)(NSObject* inputObject);
                 break;
             }
             if ([self.writerInput isReadyForMoreMediaData]) {
-                UIImage* img = extractor([images objectAtIndex:i]);
-                if (img == nil) {
-                    i++;
-                    NSLog(@"Warning: could not extract one of the frames");
-                    continue;
+
+                CVPixelBufferRef sampleBuffer;
+                @autoreleasepool {
+                    UIImage* img = extractor([images objectAtIndex:i]);
+                    if (img == nil) {
+                        i++;
+                        NSLog(@"Warning: could not extract one of the frames");
+                        continue;
+                    }
+                    sampleBuffer = [self newPixelBufferFromCGImage:[img CGImage]];
                 }
-                CVPixelBufferRef sampleBuffer = [self newPixelBufferFromCGImage:[img CGImage]];
-                
                 if (sampleBuffer) {
                     if (i == 0) {
                         [self.bufferAdapter appendPixelBuffer:sampleBuffer withPresentationTime:kCMTimeZero];
