@@ -8,6 +8,7 @@ Pod::Spec.new do |s|
 	  s.platform     = :ios, '8.0'
 	  s.source = {
 	    :git => 'https://github.com/rahuldeojoshi/CEMovieMaker.git',
+	    :branch => 'master',
 	    :tag => s.version.to_s
 	  }
 s.source_files = ['CEMovieMaker/CE*.{h,m}']
